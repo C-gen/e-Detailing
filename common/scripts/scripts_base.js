@@ -17,7 +17,7 @@ var main_obj = {
 				"Presentation02_Brand_RU":{
 					"p_pres":"Presentation01_Brand_RU",
 					"p_slide":"Popup_Brand_RU",
-					"slides":["Animation_Brand_RU"] 
+					"slides":["ExampleAnim_Brand_RU"] 
 				}
 			}, 		
 			// СОЗДАНИЕ ПУНКТОВ ОСНОВНОГО МЕНЮ
@@ -37,7 +37,7 @@ var main_obj = {
 				{obj : 'btn_home', slide : 'Title_Brand_RU', present : 'Presentation01_Brand_RU'},
 				{obj : 'btn_library', slide : 'Popup_Brand_RU', present : 'Presentation01_Brand_RU'},
 				{obj : 'btn_media', slide : 'Video_Brand_RU', present : 'Presentation01_Brand_RU'},
-				{obj : 'btn_internal', slide : 'Animation_Brand_RU', present : 'Presentation02_Brand_RU'}
+				{obj : 'btn_internal', slide : 'ExampleAnim_Brand_RU', present : 'Presentation02_Brand_RU'}
 			],		
 			show_bc : true, // показывать крошки или нет	
 			goto_back_btn : ".goto_back", // элемент на котором срабатывает функция возврата на предыдущую страницу
@@ -59,182 +59,117 @@ var main_obj = {
 			prev_p : "",
 			pres : "",
 			slide : "",
-			check_veeva : false
+			is_app : false
 		},
 		set_events: function(){
 			var self = this;
 			
-			// ПИШЕМ ВСЕ ЕВЕНТЫ ТУТ /////////////////								
-			/*! 
-			$("div").swipe({
-				tap:function(e){
-					//  клик
-				},				
-				// ниже не обязательные параметры, если нужен только клик
-				swipe:function(e){
-					// свайп
-				},
-				excludedElements:"", // в строку через зпт записываются теги, на которых не будет срабатывания события. По умолчанию оключены input a button textarea - на этих элементах гарантированно срабатывает stopPropagation
-				threshold:150 // для swipe растояние после которого срабатывает событие
-				cancelThreshold : 10, //  для swipe противоположное растояние после которого отменяется событие
-				triggerOnTouchEnd : false, // для swipe  если false, то событие сработает сразу при достижении значения threshold. Если true, то сработает после достижения значения threshold и отрыва пальца от экрана
-				triggerOnTouchLeave : true, //  для swipe если true, то событие прервется при выходе за пределы элемента
-			});
+			// ПИШЕМ ВСЕ ЕВЕНТЫ ТУТ /////////////////		
 			
-		примерчик */			
-			
-				
-			// SWIPE EVENTS //////////////////////////////////////
-			$('body').swipe({
-				swipeLeft:function(event, direction, distance, duration, fingerCount){
-					if(!self.opt.isSlideDataReady())return;
-					if(self.opt.slideRight!=''){					
-						self.func_goto_slide(false,self.opt.slideRight,self.opt.slidePresentationH);
-					}
-				},
-				swipeRight:function(event, direction, distance, duration, fingerCount){
-					if(!self.opt.isSlideDataReady())return;
-					if(self.opt.slideLeft!=''){	
-						self.func_goto_slide(false,self.opt.slideLeft,self.opt.slidePresentationH);
-					}
-				},
-				swipeUp:function(event, direction, distance, duration, fingerCount){
-					if(!self.opt.isSlideDataReady())return;
-					if(self.opt.slideDown!=''){	
-						self.func_goto_slide(false,self.opt.slideDown,self.opt.slidePresentationV);
-					}
-				},
-				swipeDown:function(event, direction, distance, duration, fingerCount){
-					if(!self.opt.isSlideDataReady())return;
-					if(self.opt.slideUp!=''){
-						self.func_goto_slide(false,self.opt.slideUp,self.opt.slidePresentationV2);
-					}
-				},
-				threshold:150, // растояние после которого срабатывает событие
-				cancelThreshold : 10, // противоположное растояние после которого отменяется событие
-				triggerOnTouchEnd : false, // если false, то событие сработает сразу при достижении значения threshold. Если true, то сработает после достижения значения threshold и отрыва пальца от экрана
-				triggerOnTouchLeave : true, // если true, то событие прервется при выходе за пределы элемента
-			});
-
-			// POPUP ///////////////////////////////////////		
-			$(".popup_btn").swipe({excludedElements:"",tap:function(e){
-				e.stopPropagation();
-				$(this).parent().find(".popup").addClass("active");
-			}}); 
-			
-			$(".popup_close").swipe({
-				excludedElements:"",
-				tap:function(e){
-					$(this).parent().parent().removeClass("active");
+			$$('body').on("swipeLeft",function(e) {
+				if(!self.opt.isSlideDataReady())return;
+				if(self.opt.slideRight!=''){					
+					self.func_goto_slide(false,self.opt.slideRight,self.opt.slidePresentationH);
 				}
+			});			
+			$$('body').on("swipeRight",function(e) {
+				if(!self.opt.isSlideDataReady())return;
+				if(self.opt.slideLeft!=''){
+					self.func_goto_slide(false,self.opt.slideLeft,self.opt.slidePresentationH);
+				}			
+			});			
+			$$('body').on("swipeUp",function(e) {
+				if(!self.opt.isSlideDataReady())return;
+				if(self.opt.slideDown!=''){	
+					self.func_goto_slide(false,self.opt.slideDown,self.opt.slidePresentationV);
+				}
+			});	
+			$$('body').on("swipeDown",function(e) {
+				if(!self.opt.isSlideDataReady())return;
+				if(self.opt.slideUp!=''){
+					self.func_goto_slide(false,self.opt.slideUp,self.opt.slidePresentationV2);
+				}
+			});
+				
+			// POPUP ///////////////////////////////////////		
+			$$(".popup_btn").on("touch",function( e ) {
+				e.stopPropagation();
+				$$(this).parent().find(".popup").addClass("active");
+			}); 
+			
+			$$(".popup_close").on("touch",function( e ) {
+				$$(this).parent().parent().removeClass("active");
 			}); 
 	
 			// VIDEO ///////////////////////////////////////	
-			$('.play').swipe({excludedElements:"",tap:function(e){
+			$$('.play').on("touch",function( e ) {
 				e.stopPropagation();
-				$(".video").fadeIn(300);
-				$("video").load();
-				$("video")[0].play();
-				$("video").show();
-			}});
+				$$(".video").fadeIn(300);
+				$$("video").load();
+				$$("video")[0].play();
+				$$("video").show();
+			});
 			
-			$('.video_close').swipe({excludedElements:"",tap:function(e){
+			$$('.video_close').on("touch",function( e ) {
 				e.stopPropagation();	
-				$(".video").fadeOut(300);
-				$("video").hide();
-				$("video")[0].pause();
-			}});	
+				$$(".video").fadeOut(300);
+				$$("video").hide();
+				$$("video")[0].pause();
+			});	
 			
-			$("video").swipe({
-				tap:function(e){
-					e.stopPropagation();
-				},
-				swipe:function(e){
-					e.stopPropagation();
-				},threshold:0
+			$$("video").on("touch",function( e ) {
+				e.stopPropagation();
 			});	
 			
 			// события для кастомного меню //////
 			
-			$(".open_menu").swipe({
-				excludedElements:"",
-				swipeStatus:function(e, phase, direction, distance, duration, fingers){
-					e.stopPropagation();
-					if($("body").hasClass("open_swipe")){
-						if(direction=="up"&&distance<50&&phase!="end"&&phase!="cancel"){
-							$(".open_menu").css({"margin-bottom":distance+"px","-webkit-transition":"all 0s linear"});	
-							$("nav").css({"margin-bottom":distance+"px","-webkit-transition":"all 0s linear"});		
-							if(distance>40){
-								$("nav").addClass("active");
-								$(".open_menu_overlay").addClass("active");	
-								$(".content").addClass("blur");
-								$(".open_menu").css({"margin-bottom":"0px","-webkit-transition":"all .2s cubic-bezier(0.68, -0.55, 0.265, 1.55)"});
-								$("nav").css({"margin-bottom":"0px"});													
-							}
-						}else{
-							$(".open_menu").css({"margin-bottom":"0px","-webkit-transition":"all .2s cubic-bezier(0.68, -0.55, 0.265, 1.55)"});	
-							$("nav").css({"margin-bottom":"0px","-webkit-transition":"all .2s linear"});
-						}
-					}else{
-						$("nav").addClass("active");
-						$(".content").addClass("blur");
-						$(".open_menu_overlay").addClass("active");
-					}										
-				},
-				triggerOnTouchLeave:true,
-				maxTimeThreshold:2000,
-				triggerOnTouchEnd : false,
-				threshold:10
+			$$(".open_menu").on("touch",function( e ) {
+				e.stopPropagation();
+				$$("section").addClass("nav_open");
 			});				
-			$(".open_menu_overlay").swipe({
-				excludedElements:"",
-				triggerOnTouchEnd : false,
-				tap:function(e){
-					e.stopPropagation();
-					$("nav").removeClass("active");
-					$(".open_menu_overlay").removeClass("active");
-					$(".content").removeClass("blur");
-				}
+			$$(".open_menu_overlay").on("touch",function( e ) {
+				e.stopPropagation();
+				$$("section").removeClass("nav_open");
 			});
 								
 			for(var a in self.opt.links){
 				self.func_goto_slide('.' + self.opt.links[a]['obj'], self.opt.links[a]['slide'], self.opt.links[a]['present']);
 			}					
 			
-			$(self.opt.single_link).each(function(a) {
-				var slide_present = $(this).attr("data-slide").split(':');
-				self.func_goto_slide($(this)[0], slide_present[0], slide_present[1]);
+			$$(self.opt.single_link).each(function(a) {
+				var slide_present = $$(this).attr("data-slide").split(':');
+				self.func_goto_slide($$(this)[0], slide_present[0], slide_present[1]);
 			});
 			
 			// OTHER ///////////////////////
-			$(document).on('touchmove', function(e){
+			$$(document).on('touchmove', function(e){
 				e.preventDefault();
 			});		
 			
-			$(self.opt.goto_back_btn).swipe({tap:function(e){
+			$$(self.opt.goto_back_btn).on("touch",function( e ) {
 				self.go_back();
-			}});	
+			});	
 		},
 		start: function() {		
-			// определение вива это или веб /////////////////			
+			// определение приложение это или веб-страница /////////////////			
 			var self = this, address = document.location.href;	
 			
 			if(address.indexOf('/mobile/') == -1){						
 				self.opt.current_presentation = address.split("?")[1];
 				
 				if(!self.opt.current_presentation || self.opt.current_presentation == "undefined"){
-					self.opt.current_presentation = $("title").text();
+					self.opt.current_presentation = $$("title").text();
 				}	
 				self.opt.current_slide = address.slice(address.lastIndexOf("/") + 1, address.lastIndexOf(".html"));
 				
-				$("section").attr("id",self.opt.current_slide);
+				$$("section").attr("id",self.opt.current_slide);
 				
 				self.setSwipesData();
 				self.opt.show_bc ? self.generate_bc() : true;
 				self.opt.create_menu ? self.set_main_menu() : true;
 				self.set_events();
 			}else{				
-				self.opt.check_veeva = true;
+				self.opt.is_app = true;
 				
 				com.veeva.clm.getDataForCurrentObject('Presentation', 'Presentation_Id_vod__c', function(result){
 					self.opt.current_presentation = result.Presentation.Presentation_Id_vod__c;
@@ -315,7 +250,7 @@ var main_obj = {
 				s = '';
 			}		
 			self.opt.bc = '<div class="bc">'+s2+'</div>';
-			$('section').append(self.opt.bc);
+			$$('section').append(self.opt.bc);
 		},
 		setSwipesData: function(){
 			var self = this;	
@@ -406,16 +341,16 @@ var main_obj = {
 					except ? main_menu += "<button class='"+self.opt.nav_buttons[a]['el_class']+" btn_disable'></button>" : main_menu += "<button class='"+self.opt.nav_buttons[a]['el_class']+"'></button>";					
 				}
 			}
-			$("nav").append(main_menu);
+			$$("nav").append(main_menu);
 		},
 		func_goto_slide: function(obj,slide,present){
 			var self = this;
 			if(obj){
-				$(obj).swipe({excludedElements:"",tap:function(){
-					self.opt.check_veeva ? com.veeva.clm.gotoSlide(slide+'.zip', present) : document.location.href = "../"+slide+"/"+slide+".html?"+present;						
-				}});	
+				$$(obj).on("touch",function( e ) {
+					self.opt.is_app ? com.veeva.clm.gotoSlide(slide+'.zip', present) : document.location.href = "../"+slide+"/"+slide+".html?"+present;						
+				});	
 			}else{
-				self.opt.check_veeva ? com.veeva.clm.gotoSlide(slide+'.zip', present) : document.location.href = "../"+slide+"/"+slide+".html?"+present;
+				self.opt.is_app ? com.veeva.clm.gotoSlide(slide+'.zip', present) : document.location.href = "../"+slide+"/"+slide+".html?"+present;
 			}
 		},
 		go_back: function(){
@@ -426,9 +361,9 @@ var main_obj = {
 
 	
 
-$(document).ready(function(){
+(function() {
 	main_obj.start();	
-});	
+})();
 	
 		
 	

@@ -22,6 +22,7 @@ body {
 	width:100%;
 	padding:0;
 	margin:0;
+	background:#ccc;
 }
 
 section{
@@ -263,20 +264,20 @@ nav button.btn_disable{
 	top:0;
 	width:100%;
 	height:100%;
-	right:-200%;
+	visibility:hidden;
 	background:rgba(0,0,0,.4);
 	opacity:0;
-	-webkit-transition:opacity .5s ease-out,-webkit-filter .5s linear;
+	-webkit-transition:all .5s linear;
 }
-.blur{	
+.nav_open .content{
 	-webkit-filter:blur(4px);
+	filter:blur(4px);	
 }
-.open_menu_overlay.active{
-	right:0;	
+.nav_open .open_menu_overlay{
 	opacity:1;
+	visibility:visible;
 }
- 
-nav.active{
+.nav_open nav{
 	bottom:0;
 }
 
