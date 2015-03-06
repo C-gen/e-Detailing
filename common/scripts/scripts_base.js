@@ -1,5 +1,5 @@
 /*! 
-	SCRIPTS_BASE v0.3
+	SCRIPTS_BASE v0.9
 	nestline digital (c) 2015
 */
 
@@ -66,30 +66,37 @@ var main_obj = {
 			
 			// ПИШЕМ ВСЕ ЕВЕНТЫ ТУТ /////////////////		
 			
-			$$('body').on("swipeLeft",function(e) {
-				if(!self.opt.isSlideDataReady())return;
-				if(self.opt.slideRight!=''){					
-					self.func_goto_slide(false,self.opt.slideRight,self.opt.slidePresentationH);
-				}
-			});			
-			$$('body').on("swipeRight",function(e) {
-				if(!self.opt.isSlideDataReady())return;
-				if(self.opt.slideLeft!=''){
-					self.func_goto_slide(false,self.opt.slideLeft,self.opt.slidePresentationH);
-				}			
-			});			
-			$$('body').on("swipeUp",function(e) {
-				if(!self.opt.isSlideDataReady())return;
-				if(self.opt.slideDown!=''){	
-					self.func_goto_slide(false,self.opt.slideDown,self.opt.slidePresentationV);
-				}
-			});	
-			$$('body').on("swipeDown",function(e) {
-				if(!self.opt.isSlideDataReady())return;
-				if(self.opt.slideUp!=''){
-					self.func_goto_slide(false,self.opt.slideUp,self.opt.slidePresentationV2);
-				}
-			});
+			
+			
+			// swipe  
+			var gestures = ['swipeLeft', 'swipeRight', 'swipeUp','swipeDown'];
+			gestures.forEach(function (type) {
+				$$('body').on(type, function (e) {
+					switch (type) {
+						case 'swipeLeft':
+							if(!self.opt.isSlideDataReady())return;
+							if(self.opt.slideRight!=''){					
+								self.func_goto_slide(false,self.opt.slideRight,self.opt.slidePresentationH);
+							}break;
+						case 'swipeRight':
+							if(!self.opt.isSlideDataReady())return;
+							if(self.opt.slideLeft!=''){
+								self.func_goto_slide(false,self.opt.slideLeft,self.opt.slidePresentationH);
+							}break;
+						case 'swipeUp':
+							if(!self.opt.isSlideDataReady())return;
+							if(self.opt.slideDown!=''){	
+								self.func_goto_slide(false,self.opt.slideDown,self.opt.slidePresentationV);
+							}break;
+						case 'swipeDown':
+							if(!self.opt.isSlideDataReady())return;
+							if(self.opt.slideUp!=''){
+								self.func_goto_slide(false,self.opt.slideUp,self.opt.slidePresentationV2);
+							}break;
+					}
+				});
+            });
+			
 				
 			// POPUP ///////////////////////////////////////		
 			$$(".popup_btn").on("touch",function( e ) {
