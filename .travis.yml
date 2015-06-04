@@ -1,0 +1,8 @@
+language: node_js
+node_js:
+    - '0.10'
+before_install:
+    - npm install -g grunt-cli
+script:
+    - phantomjs test/expected/generate_local.js
+    - phantomjs test/expected/generate_remote.js
