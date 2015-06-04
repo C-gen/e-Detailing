@@ -1,8 +1,8 @@
 /*
- * grunt-autoshot
- * https://github.com//grunt-autoshot
+ * e-Detailing template
+ * https://github.com/4-life/e-Detailing
  *
- * Copyright (c) 2013 Ferrari Lee
+ * Copyright (c) 2015 
  * Licensed under the MIT license.
  */
 
@@ -48,8 +48,8 @@ module.exports = function(grunt) {
     ctl: {
       default_options: {
         options: {
-		  user: "cloader@veeva.partner20.nestline",
-		  password: "nestline1234hkGnf0XW7XbOFFuDXfzm5E4p", 
+		  user: " ",
+		  password: " ", 
 		  local: {
             pathFrom : './test/src/',
 			pathTo   : "./test/#result/ctlfile/"
@@ -61,10 +61,10 @@ module.exports = function(grunt) {
     ftp: {
       default_options: {
         options: {	  
-			host : "vf4.vod309.com",
+			host : " ",
 			port : 21, 
-			user : "cloader@veeva.partner20.nestline", 
-			pass : "nestline1234",
+			user : " ", 
+			pass : " ",
 			dir  : "./test/#result/"
         },
       },
@@ -111,7 +111,4 @@ module.exports = function(grunt) {
 
   // By default, lint and run all tests.
   grunt.registerTask('default', ['jshint', 'test']);
-  
-
-
 };
