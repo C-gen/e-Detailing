@@ -16,9 +16,10 @@ module.exports = function(grunt) {
       default_options: {
         options: {
           path: './test/src',
-		  zoomFactor: .2,
+		  string: 'string',
+		  zoomFactor: 1, // .2  1  2
           viewport: [
-            '200x150'
+			'1024x768' //  200x150  1024x768  2048x1536
           ],
 		  delay: false,
           remote: {
@@ -28,33 +29,26 @@ module.exports = function(grunt) {
           }
         },
       },
-    },
-	
+    },      
     ctl: {
       default_options: {
         options: {
-		  user: " ",
-		  password: " ", 
+		  file : ".ftp.json",
 		  local: {
             pathFrom : './test/src/',
 			pathTo   : "./test/#result/ctlfile/"
           }
         },
       },
-    },
-	
+    },	
     ftp: {
       default_options: {
         options: {	  
-			host : " ",
-			port : 21, 
-			user : " ", 
-			pass : " ",
+			file : ".ftp.json",
 			dir  : "./test/#result/"
         },
       },
-    },
-	
+    },	
 	zip: {
       default_options: {
         files: [{
@@ -66,19 +60,14 @@ module.exports = function(grunt) {
         }]
       }
     },
-
-    copy: {
-	  main: {
-        expand: true,
-        cwd: 'test/src/common/',
-        src: ['**'],
-		dest: './test/src/',
-	  },
-    },
+	clean: {
+		build: ["test/#result"],
+		release: ["test/src/**/*"]
+	}
   });
   
   grunt.loadTasks('tasks');
-
-  grunt.registerTask('send', ['zip', 'ctl', 'ftp']);
-  //grunt.registerTask('default', ['']);
+  grunt.loadNpmTasks('grunt-contrib-clean');
+  
+  grunt.registerTask('default', ['zip', 'ctl', 'ftp', 'clean:build', 'clean:release']);
 };

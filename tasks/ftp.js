@@ -1,11 +1,3 @@
-/*
- * grunt-autoshot
- * https://github.com//grunt-autoshot
- *
- * Copyright (c) 2013 Ferrari Lee
- * Licensed under the MIT license.
- */
-
 'use strict';
 
 var JSFtp = require("jsftp");
@@ -24,6 +16,13 @@ module.exports = function(grunt) {
 		
     });
 	
+	if(options.file && options.file!=''){	
+		var file_options = JSON.parse(fs.readFileSync('./'+options.file, 'utf8'));
+		for (var property in file_options){
+			options[property] = file_options[property];
+		}
+	}
+	
 	var Ftp = new JSFtp({
 		host: options.host,
 		port: options.port, 
@@ -37,6 +36,8 @@ module.exports = function(grunt) {
     });
 	
 	var dir = options.dir, i = 0, files;
+	
+	
 	
 	function readDir(dir, callback){
 		fs.readdir(dir, function(err, allFiles) {

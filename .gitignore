@@ -5,3 +5,7 @@ build/**
 node_modules/
 node_modules/**
 cache/
+test/
+test/**
+.*
+!.gitignore
