@@ -11,21 +11,26 @@
 module.exports = function(grunt) {
      
   grunt.initConfig({
-
+      rename: {
+        main: {
+            options:{
+                path: './src/',                
+            },
+            files: []
+          }
+    },
     autoshot: {
       default_options: {
         options: {
-          path: './test/src',
-		  string: 'string',
-		  zoomFactor: 1, // .2  1  2
+          path: './src',
+		  string: '',
+		  zoomFactor: .2, // .2  1  2
           viewport: [
-			'1024x768' //  200x150  1024x768  2048x1536
+			'200x150' //  200x150  1024x768  2048x1536
           ],
 		  delay: false,
           remote: {
-            files: [
-			
-            ]
+            files: []
           }
         },
       },
@@ -35,17 +40,17 @@ module.exports = function(grunt) {
         options: {
 		  file : ".ftp.json",
 		  local: {
-            pathFrom : './test/src/',
-			pathTo   : "./test/#result/ctlfile/"
+            pathFrom : './src/',
+			pathTo   : "./src/#result/ctlfile/"
           }
         },
-      },
+      }
     },	
     ftp: {
       default_options: {
         options: {	  
 			file : ".ftp.json",
-			dir  : "./test/#result/"
+			dir  : "./src/#result/"
         },
       },
     },	
@@ -54,19 +59,20 @@ module.exports = function(grunt) {
         files: [{
           filter: 'isDirectory',
           expand: true,
-          cwd: './test/src',
+          cwd: './src',
           src: ['*'],
-          dest: './test/#result'
+          dest: './src/#result'
         }]
       }
     },
 	clean: {
-		build: ["test/#result"],
-		release: ["test/src/**/*"]
+		build: ["src/#result"],
+		release: ["src/**/*"]
 	}
   });
   
   grunt.loadTasks('tasks');
+  //grunt.loadNpmTasks('grunt-contrib-rename');
   grunt.loadNpmTasks('grunt-contrib-clean');
   
   grunt.registerTask('default', ['zip', 'ctl', 'ftp', 'clean:build', 'clean:release']);

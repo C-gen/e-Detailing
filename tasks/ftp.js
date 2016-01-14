@@ -35,9 +35,7 @@ module.exports = function(grunt) {
         done();
     });
 	
-	var dir = options.dir, i = 0, files;
-	
-	
+	var dir = options.dir, i = 0, files;	
 	
 	function readDir(dir, callback){
 		fs.readdir(dir, function(err, allFiles) {
@@ -46,9 +44,9 @@ module.exports = function(grunt) {
 		});		
 	}
 	
-	function sendFile(src,file, callback){
+	function sendFile(src, file, callback){
 		
-		grunt.log.writeln(chalk.bgMagenta(file+" sending..."));
+		grunt.log.writeln(file+" sending...");
 		
 		Ftp.put(src, file, function(hadError) {
 			if (!hadError){
@@ -57,6 +55,7 @@ module.exports = function(grunt) {
 				callback(files);			
 			}else{
 				grunt.log.writeln(chalk.red(hadError));
+				sendFile(src, file, callback);
 				return false;				
 			}
 		});

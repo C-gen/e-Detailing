@@ -33,7 +33,7 @@ module.exports = function(grunt) {
        ]
      },
      local: {
-       path: './test/src/',
+       path: './src/',
        port: 7788,
        files: obj
      },
@@ -44,15 +44,16 @@ module.exports = function(grunt) {
 	err ? console.log(err) : true;
 	for(var l in list){
 		switch (options.zoomFactor) {
-			case 1:
-				obj.push( {src: list[l]+"/"+list[l]+".html", dest: "../#result/"+list[l]+".jpg"} );
+			case .2:
+				obj.push( {src: list[l]+"/"+list[l]+".html", dest: list[l]+"/"+list[l]+"-full.jpg"} );
+				obj.push( {src: list[l]+"/"+list[l]+".html", dest: list[l]+"/"+list[l]+"-thumb.jpg"} );
 				break;
 			case 2:
 				obj.push( {src: list[l]+"/"+list[l]+".html", dest: "../#result/"+list[l]+".jpg"} );
 				break;
-			default:					  
+			default:
 				var srt = list[l].replace(options.string,"");
-				srt = srt.replace("S","");
+				srt = srt.replace("Slide","");
 				obj.push( {src: list[l]+"/"+list[l]+".html", dest: "../#result/"+srt+".jpg"} );
 				break;
 		}
