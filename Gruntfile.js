@@ -1,8 +1,8 @@
 /*
- * e-Detailing template
+ * e-Detailing helper
  * https://github.com/4-life/e-Detailing
  *
- * Copyright (c) 2015 
+ * Copyright (c) 2016
  * Licensed under the MIT license.
  */
 
@@ -41,7 +41,7 @@ module.exports = function(grunt) {
 		  file : ".ftp.json",
 		  local: {
             pathFrom : './src/',
-			pathTo   : "./src/#result/ctlfile/"
+			pathTo   : "./#result/ctlfile/"
           }
         },
       }
@@ -50,7 +50,7 @@ module.exports = function(grunt) {
       default_options: {
         options: {	  
 			file : ".ftp.json",
-			dir  : "./src/#result/"
+			dir  : "./#result/"
         },
       },
     },	
@@ -61,18 +61,17 @@ module.exports = function(grunt) {
           expand: true,
           cwd: './src',
           src: ['*'],
-          dest: './src/#result'
+          dest: './#result'
         }]
       }
     },
 	clean: {
-		build: ["src/#result"],
+		build: ["./#result"],
 		release: ["src/**/*"]
 	}
   });
   
   grunt.loadTasks('tasks');
-  //grunt.loadNpmTasks('grunt-contrib-rename');
   grunt.loadNpmTasks('grunt-contrib-clean');
   
   grunt.registerTask('default', ['zip', 'ctl', 'ftp', 'clean:build', 'clean:release']);

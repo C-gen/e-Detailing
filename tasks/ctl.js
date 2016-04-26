@@ -12,7 +12,10 @@ module.exports = function(grunt) {
 	var self = this;
 	
     var options = self.options({
-	
+	   dataList: [
+            // ВСТАВЛЯЕМ СЮДА ОБЪЕКТ С DESCRIPTION
+        {"S1_SYM1215_Symbicort_RU":"Пазл","S2_SYM1215_Symbicort_RU":"Типы визитов"}
+       ]
     });
 	
 	if(options.file && options.file!=''){	
@@ -28,11 +31,14 @@ module.exports = function(grunt) {
 		obj.push( {src: list[l]+"", dest: list[l]+".ctl"} );
 	  }
 	  
-	  async.eachSeries(obj, function(file, outerCb) {		
+	  async.eachSeries(obj, function(file, outerCb) {
 		var contents = "USER="+options.user+"\r\n";
 			contents += "PASSWORD="+options.pass+"\r\n";
 			contents += "FILENAME="+file.src+".zip\r\n";
 			contents += "Name="+file.src+"\r\n";
+			if(typeof(options.dataList[0])=='object' && options.dataList[0][file.src]){
+                contents += "Description_vod__c="+options.dataList[0][file.src]+"\r\n";
+            }
 			contents += "Active_vod__c=true";
 			
 		grunt.file.write(options.local.pathTo + file.dest, contents, {encoding:"utf8"});
