@@ -14,7 +14,6 @@ module.exports = function(grunt) {
     var options = self.options({
 	   dataList: [
             // ВСТАВЛЯЕМ СЮДА ОБЪЕКТ С DESCRIPTION
-        {"S1_SYM1215_Symbicort_RU":"Пазл","S2_SYM1215_Symbicort_RU":"Типы визитов"}
        ]
     });
 	
